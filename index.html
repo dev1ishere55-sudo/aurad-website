@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$AURAD | Aura Debt: a community meme coin on Solana</title>
+<meta name="description" content="$AURAD (Aura Debt) is a community meme coin on Solana for everyone who has ever lost aura points. Fair launch on Pump.fun, 30 Sept 2026, 13:00 UTC. No presale. High risk, no promises.">
+<meta property="og:title" content="$AURAD | Aura Debt">
+<meta property="og:description" content="A community meme coin on Solana. Fair launch 30 Sept 2026, 13:00 UTC on Pump.fun. No presale.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text x='50' y='68' font-size='60' text-anchor='middle' fill='%2300ff88' font-family='Arial' font-weight='bold'>A</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="nav">
+  <a href="#top" class="brand">$AURAD</a>
+  <div class="nav-links">
+    <a href="#what">What</a>
+    <a href="#waitlist">Waitlist</a>
+    <a href="#launch">Launch</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#community">Community</a>
+  </div>
+</nav>
+
+<header id="top" class="hero">
+  <p class="tag">Community meme coin on Solana</p>
+  <h1 class="glow">AURA<span class="red">DEBT</span></h1>
+  <p class="sub">For everyone who's ever fumbled so hard they lost aura points. Not at you. <strong>With you.</strong></p>
+  <div class="countdown" id="countdown" aria-live="polite">
+    <div><span id="cd-d">--</span><small>days</small></div>
+    <div><span id="cd-h">--</span><small>hours</small></div>
+    <div><span id="cd-m">--</span><small>mins</small></div>
+    <div><span id="cd-s">--</span><small>secs</small></div>
+  </div>
+  <p class="launch-time">Fair launch on Pump.fun · 30 Sept 2026 · 13:00 UTC / 11 PM AEST</p>
+  <div class="cta-row">
+    <a href="#waitlist" class="btn">Join the waitlist (free)</a>
+    <a href="#launch" class="btn ghost">How to verify at launch</a>
+  </div>
+</header>
+
+<section id="what" class="section">
+  <h2>What is aura debt?</h2>
+  <p>You walk into a glass door. You wave back at someone who wasn't waving at you. You say "you too" when the waiter says "enjoy your meal." That's <span class="green">-1,000 aura</span>. Stack enough of those and you're in aura debt.</p>
+  <p>We all have it. $AURAD is a meme coin and a community built around laughing at our own Ls. No utility, no roadmap to the moon, no promises. Just memes and the people making them.</p>
+
+  <div class="calc card">
+    <h3>Check your aura debt</h3>
+    <p class="muted">Just a joke calculator. Tick everything you've done this week.</p>
+    <form id="calc">
+      <label><input type="checkbox" value="500"> Waved back at someone who wasn't waving at me</label>
+      <label><input type="checkbox" value="1500"> Tripped in public and pretended to jog</label>
+      <label><input type="checkbox" value="800"> Said "you too" to "happy birthday"</label>
+      <label><input type="checkbox" value="2000"> Got left on read after a paragraph</label>
+      <label><input type="checkbox" value="1200"> Pushed a door that said PULL</label>
+      <label><input type="checkbox" value="3000"> Sent a screenshot to the person I was talking about</label>
+    </form>
+    <p class="calc-out">Your aura debt: <span id="calc-total" class="red">0</span></p>
+    <p id="calc-verdict" class="muted">Clean record. Suspicious.</p>
+  </div>
+</section>
+
+<section id="waitlist" class="section">
+  <h2>Join the waitlist</h2>
+  <p>Get the launch reminder and community links first. <strong>Free: no wallet, no payment, ever.</strong> We will never ask you to send crypto to join anything.</p>
+  <form id="waitlist-form" class="card form" novalidate>
+    <label>Email
+      <input type="email" name="email" placeholder="you@example.com" maxlength="254" autocomplete="email">
+    </label>
+    <p class="or">and/or</p>
+    <label>Telegram handle
+      <input type="text" name="telegram" placeholder="@yourhandle" maxlength="33">
+    </label>
+    <label class="hp" aria-hidden="true">Leave this empty
+      <input type="text" name="website" tabindex="-1" autocomplete="off">
+    </label>
+    <label>Where did you find us?
+      <select name="source">
+        <option value="website">Just browsing</option>
+        <option value="x">X / Twitter</option>
+        <option value="discord">Discord</option>
+        <option value="telegram">Telegram</option>
+        <option value="other">Somewhere else</option>
+      </select>
+    </label>
+    <button type="submit" class="btn">Join free</button>
+    <p id="wl-msg" class="form-msg" role="status"></p>
+    <p class="muted small">We only use this to send launch and community updates. Unsubscribe anytime.</p>
+  </form>
+</section>
+
+<section id="launch" class="section">
+  <h2>How to get $AURAD at launch</h2>
+  <ol class="steps">
+    <li><strong>Get a Solana wallet</strong> such as Phantom or Solflare. Write your seed phrase down offline and never share it with anyone.</li>
+    <li><strong>Add a little SOL</strong> from an exchange you already trust. Only use money you can afford to lose completely.</li>
+    <li><strong>Wait for the official contract address.</strong> It is posted only at launch (30 Sept, 13:00 UTC) on our official X account and this website. Anything earlier is fake.</li>
+    <li><strong>Verify before you touch it</strong> (see below).</li>
+    <li><strong>Open the token on Pump.fun</strong> using the verified address, connect your wallet and swap.</li>
+  </ol>
+
+  <div class="card verify">
+    <h3>Verify the contract on Solscan</h3>
+    <ul>
+      <li>Paste the address into <a href="https://solscan.io" target="_blank" rel="noopener">solscan.io</a>. The token name should be <strong>Aura Debt</strong> and the symbol <strong>AURAD</strong>.</li>
+      <li>Check that it matches the address on <em>both</em> our X account and this site, character by character.</li>
+      <li>Check the creation time lines up with launch, not days earlier.</li>
+      <li>Look at the holder list. Be careful if a few wallets hold most of the supply.</li>
+      <li>Copycat tokens with the same name will appear. The address is the only thing that counts.</li>
+    </ul>
+    <p class="red"><strong>We will never DM you first. There is no presale and no private sale. Anyone offering one is a scammer.</strong></p>
+  </div>
+</section>
+
+<section id="tokenomics" class="section">
+  <h2>Tokenomics</h2>
+  <div class="card center">
+    <p class="big green">Announced at launch</p>
+    <p>Supply, any team holdings and fees will be published openly at launch and can be checked on-chain. We won't post numbers we can't verify.</p>
+  </div>
+</section>
+
+<section id="roadmap" class="section">
+  <h2>Roadmap</h2>
+  <div class="timeline">
+    <div class="card"><span class="phase green">Now</span><h3>Pre-launch</h3><p>New website, waitlist, X account, meme drops, whitepaper published on GitHub.</p></div>
+    <div class="card"><span class="phase">Next</span><h3>Community</h3><p>Discord and Telegram open, with meme contests, creator channels and moderation.</p></div>
+    <div class="card"><span class="phase">30 Sept</span><h3>Fair launch</h3><p>Launch on Pump.fun. The contract is posted only through official channels, and any team holdings are disclosed.</p></div>
+    <div class="card"><span class="phase">After</span><h3>Keep building</h3><p>Community events, meme archive, open dev updates. No promises about price, ever.</p></div>
+  </div>
+</section>
+
+<section id="community" class="section">
+  <h2>Community</h2>
+  <div class="links">
+    <a class="card link" id="x-link" href="https://x.com/vanishFL5" target="_blank" rel="noopener"><span class="green">X</span> Official updates</a>
+    <div class="card link soon"><span>Discord</span> Coming soon</div>
+    <div class="card link soon"><span>Telegram</span> Coming soon</div>
+    <a class="card link" href="https://github.com/dev1ishere55-sudo/aurad-website" target="_blank" rel="noopener"><span class="green">GitHub</span> Build in public</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <h3 class="red">Risk disclaimer</h3>
+  <p>$AURAD is a meme coin with no intrinsic value, no utility and no expectation of financial return. It is not an investment, and nothing on this site is financial advice. Meme coins are extremely volatile and you can lose everything you put in. Only spend what you can afford to lose. Do your own research and follow the laws where you live. The team may hold tokens and will disclose this at launch.</p>
+  <p class="muted small">© 2026 $AURAD community. Built in public.</p>
+</footer>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
