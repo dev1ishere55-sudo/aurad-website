@@ -23,7 +23,8 @@
 <link rel="preconnect" href="https://vrtlhbjwahqgpjtcvqtn.supabase.co" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/dseg@0.46.0/fonts/DSEG7-Classic/DSEG7Classic-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -34,12 +35,14 @@
   <a href="#top" class="brand">$AURAD</a>
   <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
   <div class="nav-links" id="nav-links">
+    <a href="#launchpad">Launchpad</a>
+    <a href="#trending">Trending</a>
     <a href="#score">Score</a>
     <a href="#wall">Confessions</a>
     <a href="#waitlist">Waitlist</a>
     <a href="#memes">Memes</a>
     <a href="#launch">Launch</a>
-    <a href="#roadmap">Roadmap</a>
+    <a href="#reclaim">Reclaim SOL</a>
     <button class="snd" id="snd" type="button" aria-pressed="false" aria-label="Sound effects">Sound: off</button>
     <a class="btn btn-sm" href="https://t.me/auradebtchatofficial" target="_blank" rel="noopener">Join Telegram</a>
   </div>
@@ -55,18 +58,28 @@
   <h1><span class="sr">$AURAD: </span><span class="glitch" data-t="AURA">AURA</span><span class="red">DEBT</span></h1>
   <p class="hero-tag" id="hero-tag">we fumble. together.</p>
   <p class="sub" id="hero-sub">For everyone who's ever fumbled so hard they lost aura points. Not at you. <strong>With you.</strong></p>
-  <div class="countdown" id="countdown" aria-live="off">
-    <div><span id="cd-d">--</span><small>days</small></div>
-    <div><span id="cd-h">--</span><small>hours</small></div>
-    <div><span id="cd-m">--</span><small>mins</small></div>
-    <div><span id="cd-s">--</span><small>secs</small></div>
+  <div class="countdown seg-clock" id="countdown" aria-live="off">
+    <div><span class="seg" data-ghost="88" id="cd-d">--</span><small>days</small></div>
+    <div><span class="seg" data-ghost="88" id="cd-h">--</span><small>hours</small></div>
+    <div><span class="seg" data-ghost="88" id="cd-m">--</span><small>mins</small></div>
+    <div><span class="seg" data-ghost="88" id="cd-s">--</span><small>secs</small></div>
   </div>
   <p class="launch-time" id="local-time">13:00 UTC</p>
   <div class="cta-row">
     <a href="#score" class="btn btn-lg">Get your Aura Debt Score</a>
     <a href="https://t.me/auradebtchatofficial" target="_blank" rel="noopener" class="btn ghost btn-lg">Join the Telegram</a>
   </div>
-  <p class="hero-stats" aria-live="polite"><span><strong id="hero-count">…</strong> on the waitlist</span><span><strong id="hero-conf">…</strong> confessions</span></p>
+  <p class="hero-stats" aria-live="polite"><span><strong class="seg" id="hero-count">…</strong> on the waitlist</span><span><strong class="seg" id="hero-conf">…</strong> confessions</span></p>
+  <div class="wallet card" id="wallet" aria-live="polite">
+    <div class="wallet-top"><span class="wallet-lbl">Aura Wallet</span><span class="wallet-state" id="w-state">read-only · not connected</span></div>
+    <div class="wallet-grid">
+      <div><small>SOL balance</small><b class="seg" data-ghost="8.8888" id="w-sol">-.----</b></div>
+      <div><small>$AURAD</small><b class="seg-txt" id="w-aurad">NOT LAUNCHED</b></div>
+      <div><small>Aura debt</small><b class="seg red" data-ghost="-88888" id="w-debt">-----</b></div>
+    </div>
+    <div class="wallet-row"><button class="btn btn-sm" id="w-connect" type="button">Connect wallet</button><button class="link-btn hidden" id="w-disc" type="button">Disconnect</button></div>
+    <p class="wallet-note small">View only. We never ask you to sign, approve or send anything to see your balance, and we never need your seed phrase.</p>
+  </div>
   <a class="scroll-hint" href="#what" aria-label="Scroll to the lore">↓</a>
 </header>
 
@@ -87,6 +100,46 @@
     <a class="card feature" href="#wall"><span class="ico" aria-hidden="true">🕯️</span><h3>Confession Wall</h3><p>Post your L anonymously and vote on the best.</p></a>
     <a class="card feature" href="#memes"><span class="ico" aria-hidden="true">🖼️</span><h3>Meme Generator</h3><p>Make AURAD memes in one tap.</p></a>
   </div>
+</section>
+
+<section id="launchpad" class="section reveal">
+  <p class="eyebrow">Launchpad</p>
+  <h2>Upcoming launches</h2>
+  <p class="lead">One launch on this board: ours. It's a fair launch on Pump.fun. No presale, no allocation, no whitelist.</p>
+  <div class="lp-board">
+    <article class="card lp-card">
+      <div class="lp-head"><span class="lp-logo" aria-hidden="true">💀</span><div><h3>$AURAD</h3><p class="small muted">Aura Debt · Solana</p></div><span class="lp-status">Upcoming</span></div>
+      <dl class="lp-meta">
+        <div><dt>Venue</dt><dd>Pump.fun</dd></div>
+        <div><dt>Date (UTC)</dt><dd class="seg">30.09 13:00</dd></div>
+        <div><dt>Contract</dt><dd>Posted at launch</dd></div>
+        <div><dt>Presale</dt><dd>None</dd></div>
+      </dl>
+      <div class="lp-clock"><small>T-minus</small><span class="seg big-seg" data-ghost="88:88:88:88" id="lp-cd">--:--:--:--</span></div>
+      <div class="lp-bar" aria-hidden="true"><i id="lp-bar"></i></div>
+      <ol class="lp-steps">
+        <li><b>1</b> Get Phantom or Solflare</li>
+        <li><b>2</b> Wait for the contract from @auradebttm and this site</li>
+        <li><b>3</b> Verify it on Solscan</li>
+        <li><b>4</b> Open it on Pump.fun</li>
+      </ol>
+      <div class="cta-row" style="justify-content:flex-start"><a class="btn" href="https://t.me/auradebtchatofficial" target="_blank" rel="noopener">Get the launch ping</a><a class="btn ghost" href="https://pump.fun" target="_blank" rel="noopener" id="lp-pump">Pump.fun</a></div>
+    </article>
+    <article class="card lp-card lp-empty"><p class="lp-status">Slot open</p><h3>Your launch here?</h3><p class="small">Not taking listings. This board only shows launches we can vouch for, and right now that's just us.</p></article>
+  </div>
+</section>
+
+<section id="trending" class="section reveal">
+  <p class="eyebrow">Market radar</p>
+  <h2>Trending on Solana</h2>
+  <div class="tabs" role="tablist" aria-label="Feeds">
+    <button class="tab active" role="tab" aria-selected="true" data-feed="trending" type="button">Trending</button>
+    <button class="tab" role="tab" aria-selected="false" data-feed="boosted" type="button">Boosted</button>
+    <button class="tab" role="tab" aria-selected="false" data-feed="radar" type="button">On our radar</button>
+  </div>
+  <p class="disclaim small" id="feed-note">Live from GeckoTerminal. Not financial advice, not endorsements. Most memecoins go to zero. Do your own research.</p>
+  <div class="feed" id="feed" role="tabpanel" aria-live="polite"><p class="muted">Loading the feed…</p></div>
+  <p class="small muted" id="feed-upd"></p>
 </section>
 
 <section id="score" class="section reveal">
@@ -223,6 +276,25 @@
   </div>
 </section>
 
+<section id="reclaim" class="section reveal">
+  <p class="eyebrow">Claim your SOL back</p>
+  <h2>Reclaim rent SOL</h2>
+  <p class="lead">Every token account in your wallet locks about <b class="seg">0.00204</b> SOL as rent. Empty accounts from old coins you sold or got rugged by keep it locked. You can close them and get that SOL back. It's already your SOL. This is not an airdrop.</p>
+  <div class="card reclaim">
+    <label for="rc-addr">Wallet address (public, read-only)</label>
+    <div class="rc-row"><input id="rc-addr" placeholder="Paste a Solana address or connect above" maxlength="44" autocomplete="off" spellcheck="false"><button class="btn" id="rc-scan" type="button">Check</button></div>
+    <div id="rc-out" class="rc-out" aria-live="polite"></div>
+    <details class="rc-how"><summary>How to reclaim it safely</summary>
+      <ul>
+        <li>Only close token accounts that have a <b>zero</b> balance.</li>
+        <li>A real close transaction contains only "Close Account" instructions, and the SOL goes back to your own wallet. Read the preview in your wallet before signing.</li>
+        <li><b>Never</b> sign anything that says Approve, Set Authority or Transfer, and never enter your seed phrase. Those are drainers.</li>
+        <li>Anyone DMing you about "claiming SOL" is a scam. We never DM first.</li>
+      </ul>
+    </details>
+  </div>
+</section>
+
 <section id="tokenomics" class="section reveal">
   <p class="eyebrow">Transparency</p>
   <h2>Tokenomics</h2>
@@ -275,8 +347,9 @@
   </div>
 </div>
 
-<script src="config.js?v=4" defer></script>
-<script src="app.js?v=4" defer></script>
-<script src="extras.js?v=4" defer></script>
+<script src="config.js?v=5" defer></script>
+<script src="app.js?v=5" defer></script>
+<script src="extras.js?v=5" defer></script>
+<script src="web3.js?v=5" defer></script>
 </body>
 </html>

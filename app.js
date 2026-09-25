@@ -191,9 +191,9 @@
       if (j && j.ok) n.textContent = j.votes; else if (j && j.error !== "already_voted") { n.textContent = before; b.disabled = false; b.classList.remove("voted"); voted = voted.filter(function (x) { return x !== id; }); store("aurad_voted", voted); }
     }).catch(function () { n.textContent = before; b.disabled = false; b.classList.remove("voted"); });
   });
-  document.querySelectorAll(".tab").forEach(function (t) {
+  document.querySelectorAll(".tab[data-sort]").forEach(function (t) {
     t.addEventListener("click", function () {
-      document.querySelectorAll(".tab").forEach(function (x) { x.classList.remove("active"); x.setAttribute("aria-pressed", "false"); });
+      document.querySelectorAll(".tab[data-sort]").forEach(function (x) { x.classList.remove("active"); x.setAttribute("aria-pressed", "false"); });
       t.classList.add("active"); t.setAttribute("aria-pressed", "true"); sort = t.dataset.sort; loadConf();
     });
   });
