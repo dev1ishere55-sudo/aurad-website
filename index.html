@@ -17,7 +17,13 @@
 <meta name="twitter:image" content="https://dev1ishere55-sudo.github.io/aurad-website/og.jpg">
 <meta name="theme-color" content="#050505">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='black'/><text x='50' y='70' font-size='62' text-anchor='middle' fill='%2300ff88' font-family='Arial' font-weight='900'>A</text></svg>">
-<link rel="stylesheet" href="style.css">
+<link rel="canonical" href="https://dev1ishere55-sudo.github.io/aurad-website/">
+<meta name="twitter:image:alt" content="AURA DEBT: what's your Aura Debt Score?">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<link rel="preconnect" href="https://vrtlhbjwahqgpjtcvqtn.supabase.co" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -36,10 +42,9 @@
 </nav>
 
 <header id="top" class="hero">
-  <div class="orb orb-g" aria-hidden="true"></div>
-  <div class="orb orb-r" aria-hidden="true"></div>
+  <div class="hero-bg" aria-hidden="true"></div>
   <p class="pill"><span class="dot"></span> Fair launch on Pump.fun · 30 Sept 2026 · 13:00 UTC</p>
-  <h1 class="glow">AURA<span class="red">DEBT</span></h1>
+  <h1 class="glow"><span class="sr">$AURAD: </span>AURA<span class="red">DEBT</span></h1>
   <p class="sub">For everyone who's ever fumbled so hard they lost aura points. Not at you. <strong>With you.</strong></p>
   <div class="countdown" id="countdown" aria-live="off">
     <div><span id="cd-d">--</span><small>days</small></div>
@@ -52,8 +57,8 @@
     <a href="#score" class="btn btn-lg">Get your Aura Debt Score</a>
     <a href="https://t.me/auradebtchatofficial" target="_blank" rel="noopener" class="btn ghost btn-lg">Join the Telegram</a>
   </div>
-  <p class="hero-stats"><span><strong id="hero-count">…</strong> on the waitlist</span><span><strong id="hero-conf">…</strong> confessions</span></p>
-  <a class="scroll-hint" href="#what" aria-label="Scroll down">↓</a>
+  <p class="hero-stats" aria-live="polite"><span><strong id="hero-count">…</strong> on the waitlist</span><span><strong id="hero-conf">…</strong> confessions</span></p>
+  <a class="scroll-hint" href="#what" aria-label="Scroll to the lore">↓</a>
 </header>
 
 <div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker">
@@ -67,9 +72,9 @@
   <p class="lead">You walk into a glass door. You wave back at someone who wasn't waving at you. You say "you too" when the waiter says "enjoy your meal." That's <span class="red">-1,000 aura</span>. Stack enough and you're in aura debt.</p>
   <p>We all have it. $AURAD is a meme coin and a community built around laughing at our own Ls. No promises. Just memes and the people making them.</p>
   <div class="feature-grid">
-    <a class="card feature" href="#score"><span class="ico">🧮</span><h3>Aura Debt Score</h3><p>Take the 30-second quiz and share your card.</p></a>
-    <a class="card feature" href="#wall"><span class="ico">🕯️</span><h3>Confession Wall</h3><p>Post your L anonymously and vote on the best.</p></a>
-    <a class="card feature" href="#memes"><span class="ico">🖼️</span><h3>Meme Generator</h3><p>Make AURAD memes in one tap.</p></a>
+    <a class="card feature" href="#score"><span class="ico" aria-hidden="true">🧮</span><h3>Aura Debt Score</h3><p>Take the 30-second quiz and share your card.</p></a>
+    <a class="card feature" href="#wall"><span class="ico" aria-hidden="true">🕯️</span><h3>Confession Wall</h3><p>Post your L anonymously and vote on the best.</p></a>
+    <a class="card feature" href="#memes"><span class="ico" aria-hidden="true">🖼️</span><h3>Meme Generator</h3><p>Make AURAD memes in one tap.</p></a>
   </div>
 </section>
 
@@ -79,14 +84,16 @@
   <p class="muted">Six questions, answered honestly. It's a joke score, not financial anything.</p>
   <div class="card quiz" id="quiz">
     <div class="progress"><div class="bar" id="q-bar"></div></div>
-    <p class="q-step muted small" id="q-step">Question 1 of 6</p>
-    <h3 class="q-text" id="q-text">Loading…</h3>
+    <div class="q-top"><p class="q-step muted small" id="q-step">Question 1 of 6</p><button type="button" class="link-btn small" id="q-back" hidden>← Back</button></div>
+    <h3 class="q-text" id="q-text" tabindex="-1">Loading…</h3>
     <div class="q-opts" id="q-opts"></div>
   </div>
   <div class="card result hidden" id="q-result">
-    <canvas id="score-card" width="1200" height="630" aria-label="Your Aura Debt Score card"></canvas>
+    <p class="result-line" id="result-line" tabindex="-1"></p>
+    <canvas id="score-card" width="1200" height="630" role="img" aria-label="Your Aura Debt Score card"></canvas>
     <div class="cta-row">
-      <a class="btn" id="share-x" target="_blank" rel="noopener">Share on X</a>
+      <button class="btn" id="share-native" type="button" hidden>Share card</button>
+      <a class="btn" id="share-x" href="https://x.com/auradebttm" target="_blank" rel="noopener">Share on X</a>
       <button class="btn ghost" id="dl-card" type="button">Download card</button>
       <button class="btn ghost" id="retake" type="button">Retake</button>
     </div>
@@ -97,17 +104,18 @@
 <section id="wall" class="section reveal">
   <p class="eyebrow">Anonymous</p>
   <h2>Confession Wall</h2>
-  <p class="muted">Confess your biggest aura loss. No names, no links, no wallet addresses. Upvote the ones that hurt.</p>
+  <p class="muted">Confess your biggest aura loss. No names, no links, no wallet addresses. Upvote the ones that hurt, and report anything that breaks the rules. Posts with 3 reports are hidden automatically for review.</p>
   <form id="conf-form" class="card form conf-form" novalidate>
     <label for="conf-body" class="sr">Your confession</label>
-    <textarea id="conf-body" name="body" maxlength="240" rows="3" placeholder="I once said 'love you' to my teacher…"></textarea>
+    <textarea id="conf-body" name="body" maxlength="240" rows="3" placeholder="Your biggest aura loss…"></textarea>
     <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <div class="conf-row"><span class="muted small" id="conf-left">240</span><button class="btn" type="submit">Confess</button></div>
+    <div class="prompts" aria-label="Writing prompts"><span class="muted small">Need a prompt?</span><button type="button" class="chip">The time I waved back at…</button><button type="button" class="chip">Worst "you too" moment…</button><button type="button" class="chip">I once sent a screenshot to…</button></div>
+    <div class="conf-row"><span class="muted small" id="conf-left" aria-live="polite">240</span><button class="btn" type="submit">Confess</button></div>
     <p id="conf-msg" class="form-msg" role="status"></p>
   </form>
-  <div class="tabs" role="tablist">
-    <button class="tab active" data-sort="votes" role="tab" aria-selected="true">Top</button>
-    <button class="tab" data-sort="created_at" role="tab" aria-selected="false">New</button>
+  <div class="tabs" role="group" aria-label="Sort confessions">
+    <button class="tab active" data-sort="votes" type="button" aria-pressed="true">Top</button>
+    <button class="tab" data-sort="created_at" type="button" aria-pressed="false">New</button>
   </div>
   <div id="conf-list" class="conf-list" aria-live="polite"><p class="muted">Loading confessions…</p></div>
 </section>
@@ -120,7 +128,7 @@
     <div class="ms-head"><span class="big green" id="wl-count">…</span><span class="muted">Debtors signed up</span></div>
     <div class="progress lg"><div class="bar" id="ms-bar"></div></div>
     <ul class="ms-list" id="ms-list"></ul>
-    <p class="muted small">Community unlocks. They're events and content, never money or token rewards.</p>
+    <p class="muted small">Planned community unlocks: events and content only, never money or token rewards.</p>
   </div>
   <form id="waitlist-form" class="card form" novalidate>
     <label>Email
@@ -243,7 +251,7 @@
 
 <a class="float-cta" href="https://t.me/auradebtchatofficial" target="_blank" rel="noopener">Join the Debtors →</a>
 
-<script src="config.js"></script>
-<script src="app.js"></script>
+<script src="config.js?v=3" defer></script>
+<script src="app.js?v=3" defer></script>
 </body>
 </html>

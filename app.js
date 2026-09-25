@@ -22,6 +22,14 @@
     floatCta.classList.toggle("show", y > window.innerHeight * 0.9);
   }
   window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  var awayCount = 0, typing = false;
+  function setAway() { floatCta.classList.toggle("away", typing || awayCount > 0); }
+  if ("IntersectionObserver" in window) {
+    var aio = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting !== !!e.target._in) { e.target._in = e.isIntersecting; awayCount += e.isIntersecting ? 1 : -1; } }); setAway(); });
+    document.querySelectorAll("form, .footer, #prelaunch, #q-result, #conf-list, #memes .meme-wrap").forEach(function (el) { aio.observe(el); });
+  }
+  document.addEventListener("focusin", function (e) { if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) { typing = true; setAway(); } });
+  document.addEventListener("focusout", function () { typing = false; setAway(); });
 
   /* ---------- reveal ---------- */
   if ("IntersectionObserver" in window) {
@@ -81,20 +89,26 @@
     [6000, "Certified Debtor", "Serious aura debt. You're one of us."],
     [10000, "Aura Bankrupt", "Legendary. The Debtors salute you."]
   ];
-  var qi = 0, score = 0;
+  var qi = 0, score = 0, hist = [];
   function tierFor(s) { var t = TIERS[0]; TIERS.forEach(function (x) { if (s >= x[0]) t = x; }); return t; }
   function renderQ() {
     var q = QS[qi];
     $("q-step").textContent = "Question " + (qi + 1) + " of " + QS.length;
     $("q-bar").style.width = (qi / QS.length * 100) + "%";
+    $("q-back").hidden = qi === 0;
     var t = $("q-text"); t.textContent = q.q; t.classList.remove("fade"); void t.offsetWidth; t.classList.add("fade");
-    var box = $("q-opts"); box.innerHTML = "";
+    var box = $("q-opts"); box.innerHTML = ""; box.classList.remove("locked");
     q.o.forEach(function (o) {
       var b = document.createElement("button"); b.type = "button"; b.className = "q-opt fade"; b.textContent = o[0];
-      b.addEventListener("click", function () { score += o[1]; qi++; if (qi < QS.length) renderQ(); else finish(); });
+      b.addEventListener("click", function () {
+        b.classList.add("picked"); box.classList.add("locked");
+        hist.push(o[1]); score += o[1];
+        setTimeout(function () { qi++; if (qi < QS.length) { renderQ(); t.focus({ preventScroll: true }); } else finish(); }, 260);
+      });
       box.appendChild(b);
     });
   }
+  $("q-back").addEventListener("click", function () { if (!qi) return; qi--; score -= hist.pop() || 0; renderQ(); $("q-text").focus({ preventScroll: true }); });
   function drawCard(s) {
     var cv = $("score-card"), ctx = cv.getContext("2d"), W = cv.width, Hh = cv.height, t = tierFor(s);
     ctx.fillStyle = "#050505"; ctx.fillRect(0, 0, W, Hh);
@@ -114,43 +128,69 @@
     $("quiz").classList.add("hidden"); $("q-result").classList.remove("hidden");
     var t = drawCard(score);
     store("aurad_score", score);
+    $("result-line").textContent = "You scored " + (score ? "-" + fmt(score) : "0") + " aura: " + t[1] + ". " + t[2];
     var txt = "My Aura Debt Score: " + (score ? "-" + fmt(score) : "0") + " aura (" + t[1] + ") 💀\n\nWhat's yours? Take the quiz 👇\n@auradebttm $AURAD";
     $("share-x").href = "https://x.com/intent/tweet?text=" + encodeURIComponent(txt) + "&url=" + encodeURIComponent("https://" + SITE + "/#score");
-    $("q-result").scrollIntoView({ behavior: "smooth", block: "center" });
+    $("q-result").scrollIntoView({ behavior: "smooth", block: "start" });
+    $("result-line").focus({ preventScroll: true });
+    shareText = txt;
   }
+  var shareText = "";
+  if (navigator.canShare && navigator.share) {
+    try { if (navigator.canShare({ files: [new File([""], "x.png", { type: "image/png" })] })) $("share-native").hidden = false; } catch (e) {}
+  }
+  $("share-native").addEventListener("click", function () {
+    $("score-card").toBlob(function (b) {
+      var f = new File([b], "my-aura-debt-score.png", { type: "image/png" });
+      navigator.share({ files: [f], text: shareText + "\nhttps://" + SITE + "/#score" }).catch(function () {});
+    }, "image/png");
+  });
   $("dl-card").addEventListener("click", function () { download($("score-card"), "my-aura-debt-score.png"); });
-  $("retake").addEventListener("click", function () { qi = 0; score = 0; $("q-result").classList.add("hidden"); $("quiz").classList.remove("hidden"); renderQ(); });
+  $("retake").addEventListener("click", function () { qi = 0; score = 0; hist = []; $("q-result").classList.add("hidden"); $("quiz").classList.remove("hidden"); renderQ(); });
   renderQ();
 
   /* ---------- confession wall ---------- */
-  var sort = "votes", voted = store("aurad_voted") || [];
+  var sort = "votes", voted = store("aurad_voted") || [], reported = store("aurad_reported") || [];
+  var token = store("aurad_token"); if (!token) { token = Math.random().toString(36).slice(2) + Date.now().toString(36); store("aurad_token", token); }
+  function errText(r, fallback) { return r.json().then(function (j) { return (j && j.message) || fallback; }).catch(function () { return fallback; }); }
   var list = $("conf-list");
   function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
   function ago(ts) { var s = (Date.now() - new Date(ts)) / 1000; if (s < 60) return "just now"; if (s < 3600) return Math.floor(s / 60) + "m ago"; if (s < 86400) return Math.floor(s / 3600) + "h ago"; return Math.floor(s / 86400) + "d ago"; }
   function loadConf() {
     api("confessions?select=id,body,votes,created_at&order=" + sort + ".desc,id.desc&limit=30").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (rows) {
-      if (!rows.length) { list.innerHTML = '<p class="muted">No confessions yet. Be the first.</p>'; return; }
+      if (!rows.length) { list.innerHTML = '<div class="empty"><strong>The wall is empty. For now.</strong>Be the first Debtor to confess. Stuck? Tap a prompt above.</div>'; return; }
       list.innerHTML = rows.map(function (c) {
         var v = voted.indexOf(c.id) > -1;
-        return '<article class="card conf"><p>“' + esc(c.body) + '”</p><div class="conf-foot"><span class="muted small">' + ago(c.created_at) + '</span><button type="button" class="vote' + (v ? " voted" : "") + '" data-id="' + c.id + '" aria-label="Upvote confession"' + (v ? " disabled" : "") + '>💀 <span>' + c.votes + '</span></button></div></article>';
+        return '<article class="card conf"><p>“' + esc(c.body) + '”</p><div class="conf-foot"><span class="muted small">' + ago(c.created_at) + '</span><span class="conf-actions"><button type="button" class="report" data-id="' + c.id + '"' + (reported.indexOf(c.id) > -1 ? ' disabled>Reported' : ' aria-label="Report confession">Report') + '</button><button type="button" class="vote' + (v ? " voted" : "") + '" data-id="' + c.id + '" aria-label="Upvote confession, ' + c.votes + ' votes"' + (v ? " disabled" : "") + '><span aria-hidden="true">💀</span> <span class="n">' + c.votes + '</span></button></span></div></article>';
       }).join("");
     }).catch(function () { list.innerHTML = '<p class="muted">Couldn\'t load confessions. Refresh in a moment.</p>'; });
   }
   list.addEventListener("click", function (e) {
+    var rb = e.target.closest(".report");
+    if (rb && !rb.disabled) {
+      if (!confirm("Report this confession for breaking the rules?")) return;
+      var rid = Number(rb.dataset.id); rb.disabled = true; rb.textContent = "Reported";
+      reported.push(rid); store("aurad_reported", reported);
+      api("rpc/report_confession", { method: "POST", body: JSON.stringify({ cid: rid }) }).catch(function () {});
+      return;
+    }
     var b = e.target.closest(".vote"); if (!b || b.disabled) return;
     var id = Number(b.dataset.id); b.disabled = true; b.classList.add("voted", "pop");
-    var n = b.querySelector("span"); n.textContent = Number(n.textContent) + 1;
+    var n = b.querySelector(".n"), before = Number(n.textContent); n.textContent = before + 1;
     voted.push(id); store("aurad_voted", voted);
-    api("rpc/upvote_confession", { method: "POST", body: JSON.stringify({ cid: id }) }).catch(function () {});
+    api("rpc/upvote_confession", { method: "POST", body: JSON.stringify({ cid: id, token: token }) }).then(function (r) { return r.json(); }).then(function (j) {
+      if (j && j.ok) n.textContent = j.votes; else if (j && j.error !== "already_voted") { n.textContent = before; b.disabled = false; b.classList.remove("voted"); voted = voted.filter(function (x) { return x !== id; }); store("aurad_voted", voted); }
+    }).catch(function () { n.textContent = before; b.disabled = false; b.classList.remove("voted"); });
   });
   document.querySelectorAll(".tab").forEach(function (t) {
     t.addEventListener("click", function () {
-      document.querySelectorAll(".tab").forEach(function (x) { x.classList.remove("active"); x.setAttribute("aria-selected", "false"); });
-      t.classList.add("active"); t.setAttribute("aria-selected", "true"); sort = t.dataset.sort; loadConf();
+      document.querySelectorAll(".tab").forEach(function (x) { x.classList.remove("active"); x.setAttribute("aria-pressed", "false"); });
+      t.classList.add("active"); t.setAttribute("aria-pressed", "true"); sort = t.dataset.sort; loadConf();
     });
   });
   var cf = $("conf-form"), cb = $("conf-body"), cmsg = $("conf-msg"), loaded = Date.now();
   cb.addEventListener("input", function () { $("conf-left").textContent = 240 - cb.value.length; });
+  document.querySelectorAll(".chip").forEach(function (c) { c.addEventListener("click", function () { cb.value = c.textContent.replace(/…$/, " "); cb.focus(); cb.setSelectionRange(cb.value.length, cb.value.length); $("conf-left").textContent = 240 - cb.value.length; }); });
   function csay(t, ok) { cmsg.textContent = t; cmsg.className = "form-msg " + (ok ? "ok" : "err"); }
   cf.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -163,7 +203,7 @@
     var btn = cf.querySelector("button"); btn.disabled = true;
     api("confessions", { method: "POST", headers: { "Prefer": "return=minimal" }, body: JSON.stringify({ body: body }) }).then(function (r) {
       if (r.status === 201) { csay("Confessed. -1,000 aura, +1 community.", true); cf.reset(); $("conf-left").textContent = "240"; store("aurad_last_conf", Date.now()); sort = "created_at"; document.querySelector('.tab[data-sort="created_at"]').click(); loadCounts(); }
-      else csay("Couldn't post that. Try again in a minute.");
+      else return errText(r, "Couldn't post that. Try again in a minute.").then(function (m) { csay(/permission|policy|violates/i.test(m) ? "That can't be posted. No links or addresses." : m); });
     }).catch(function () { csay("Network error. Try again."); }).finally(function () { btn.disabled = false; });
   });
   loadConf();
@@ -179,7 +219,7 @@
   function loadCounts() {
     api("rpc/waitlist_count", { method: "POST", body: "{}" }).then(function (r) { return r.json(); }).then(function (n) { renderMs(Number(n) || 0); }).catch(function () { renderMs(0); $("hero-count").textContent = "–"; });
     api("confessions?select=id", { method: "HEAD", headers: { "Prefer": "count=exact", "Range": "0-0" } }).then(function (r) {
-      var cr = r.headers.get("content-range") || ""; var n = cr.split("/")[1]; $("hero-conf").textContent = n && n !== "*" ? fmt(n) : "–";
+      var cr = r.headers.get("content-range") || ""; var n = cr.split("/")[1]; var hc = $("hero-conf"); if (!hc) return; var hs = hc.parentNode; if (n === "0") { hs.dataset.empty = "1"; hc.textContent = ""; hs.lastChild.textContent = ""; hs.insertAdjacentHTML("beforeend", hs.querySelector("a") ? "" : '<a href="#wall" class="green">Be the first to confess →</a>'); } else { var la = hs.querySelector("a"); if (la) la.remove(); hs.lastChild.textContent = " confessions"; hc.textContent = n && n !== "*" ? fmt(n) : "–"; }
     }).catch(function () { $("hero-conf").textContent = "–"; });
   }
   loadCounts();
@@ -200,7 +240,7 @@
     api("waitlist", { method: "POST", headers: { "Prefer": "return=minimal" }, body: JSON.stringify(body) }).then(function (r) {
       if (r.status === 201) { say("You're on the list. Now join the Telegram for prelaunch details.", true); form.reset(); loadCounts(); }
       else if (r.status === 409) say("You're already on the list.", true);
-      else say("Something went wrong. Please try again in a minute.");
+      else return errText(r, "Something went wrong. Please try again in a minute.").then(function (m) { say(/permission|policy/i.test(m) ? "Something went wrong. Please try again in a minute." : m); });
     }).catch(function () { say("Network error. Please try again."); }).finally(function () { btn.disabled = false; });
   });
 
