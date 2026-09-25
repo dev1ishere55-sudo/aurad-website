@@ -444,3 +444,23 @@ body.chaos .card{animation:wobble 2s infinite ease-in-out}
 .gt-list{list-style:none;margin-left:0!important}.gt-list li{display:flex;gap:8px;align-items:flex-start}
 .gt-list input{width:20px;height:20px;accent-color:var(--pink);flex:none;margin-top:2px}
 .gt-list input:checked+label{text-decoration:line-through;opacity:.6}
+
+/* v7: wallets */
+.wallet-row{flex-wrap:wrap;gap:8px}
+.w-chains{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.chip{font:700 .72rem var(--mono,monospace);text-transform:uppercase;padding:6px 10px;border:2px solid #444;background:#111;color:var(--paper);cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--pink);color:var(--pink)}
+.chip:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.wdlg{max-width:min(520px,94vw);width:100%;background:#0d0d0d;color:var(--paper);border:3px solid var(--pink);padding:20px;box-shadow:8px 8px 0 #000}
+.wdlg::backdrop{background:rgba(0,0,0,.75)}
+.wd-head{display:flex;justify-content:space-between;align-items:center}
+.wd-head h2{font:400 32px/1 var(--disp);text-transform:uppercase}
+.wd-tabs{margin:12px 0}
+.wd-guard{font-size:.8rem;border:2px dashed #ffd400;padding:8px 10px;margin:10px 0;color:#ffe680;overflow-wrap:anywhere}
+.wdlg h3{font:700 .8rem var(--mono,monospace);text-transform:uppercase;margin:14px 0 6px;opacity:.8}
+.wd-list{display:flex;flex-wrap:wrap;gap:8px}
+.wd-opt img{vertical-align:middle}
+.wd-steps{margin:12px 0 8px 18px;display:grid;gap:6px}
+.hidden{display:none!important}
+.wdlg{margin:auto;max-height:92vh;overflow:auto;overscroll-behavior:contain}
+.wdlg .btn:hover{transform:none}

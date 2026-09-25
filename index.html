@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; connect-src 'self' https://vrtlhbjwahqgpjtcvqtn.supabase.co https://api.geckoterminal.com https://api.dexscreener.com https://solana-rpc.publicnode.com https://api.mainnet-beta.solana.com https://base.blockscout.com https://mainnet.base.org https://base-rpc.publicnode.com https://rpc.mainnet.chain.robinhood.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>$AURAD | Aura Debt: a community meme coin on Solana</title>
 <meta name="description" content="$AURAD (Aura Debt) is a community meme coin on Solana for everyone who has ever lost aura points. Fair launch on Pump.fun, 30 Sept 2026, 13:00 UTC. No presale. High risk, no promises.">
@@ -24,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/dseg@0.46.0/fonts/DSEG7-Classic/DSEG7Classic-Bold.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -75,11 +77,12 @@
   <div class="wallet card" id="wallet" aria-live="polite">
     <div class="wallet-top"><span class="wallet-lbl">Aura Wallet</span><span class="wallet-state" id="w-state">read-only · not connected</span></div>
     <div class="wallet-grid">
-      <div><small>SOL balance</small><b class="seg" data-ghost="8.8888" id="w-sol">-.----</b></div>
+      <div><small id="w-bal-lbl">SOL balance</small><b class="seg" data-ghost="8.8888" id="w-sol">-.----</b></div>
       <div><small>$AURAD</small><b class="seg-txt" id="w-aurad">NOT LAUNCHED</b></div>
       <div><small>Aura debt</small><b class="seg red" data-ghost="-88888" id="w-debt">-----</b></div>
     </div>
-    <div class="wallet-row"><button class="btn btn-sm" id="w-connect" type="button">Connect wallet</button><button class="link-btn hidden" id="w-disc" type="button">Disconnect</button></div>
+    <div class="wallet-row"><button class="btn btn-sm" id="w-connect" type="button">Connect wallet</button><button class="btn btn-sm ghost" id="w-create" type="button">Create wallet</button><a class="link-btn hidden" id="w-explorer" href="#" target="_blank" rel="noopener">Explorer ↗</a><button class="link-btn hidden" id="w-disc" type="button">Disconnect</button></div>
+    <div class="w-chains hidden" id="w-chains" role="group" aria-label="Network"><button type="button" class="chip" data-chain="8453" aria-pressed="true">Base</button><button type="button" class="chip" data-chain="4663" aria-pressed="false">Robinhood Chain</button></div>
     <p class="wallet-note small">View only. We never ask you to sign, approve or send anything to see your balance, and we never need your seed phrase.</p>
   </div>
   <a class="scroll-hint" href="#what" aria-label="Scroll to the lore">↓</a>
@@ -389,10 +392,29 @@
   </div>
 </div>
 
+
+<dialog id="wallet-dlg" class="wdlg" aria-labelledby="wd-title">
+  <div class="wd-head"><h2 id="wd-title">Aura Wallet</h2><button type="button" class="link-btn" id="wd-close" aria-label="Close">✕</button></div>
+  <div class="tabs wd-tabs" role="tablist"><button type="button" class="tab active" role="tab" data-wtab="connect" aria-selected="true">Connect existing</button><button type="button" class="tab" role="tab" data-wtab="create" aria-selected="false">Create new</button></div>
+  <p class="wd-guard"><b>Anti-phishing:</b> the only official site is <b>dev1ishere55-sudo.github.io/aurad-website</b> (check your address bar). We will <b>never</b> ask for your seed phrase or private key, and admins never DM first.</p>
+  <div id="wd-connect">
+    <h3>Solana</h3><div class="wd-list" id="wd-sol"></div>
+    <h3>Base · Robinhood Chain (EVM)</h3><div class="wd-list" id="wd-evm"></div>
+    <p class="small muted">Already have a wallet? Connect it here. We only ask it for your public address. There's nothing to sign, and no approvals or transfers. On mobile, open this site inside your wallet app's browser.</p>
+    <p class="small form-msg" id="wd-msg" role="status"></p>
+  </div>
+  <div id="wd-create" class="hidden">
+    <p>Create a wallet in an official app, then come back and connect it:</p>
+    <div class="wd-list"><a class="btn btn-sm" href="https://phantom.com/download" target="_blank" rel="noopener">Phantom · Solana + Base</a><a class="btn btn-sm ghost" href="https://www.coinbase.com/wallet/downloads" target="_blank" rel="noopener">Coinbase Wallet · Base</a><a class="btn btn-sm ghost" href="https://metamask.io/download/" target="_blank" rel="noopener">MetaMask · Base + Robinhood</a></div>
+    <ol class="small wd-steps"><li>Download it only from the links above or your official app store.</li><li>Write the 12/24 recovery words on paper. No screenshots, no cloud notes.</li><li>Never type those words into any website, including this one. Anyone asking for them is a scammer.</li><li>Come back and tap <b>Connect existing</b>.</li></ol>
+    <p class="small muted">One-tap email/Google wallets are coming soon.</p>
+  </div>
+</dialog>
 <script src="config.js?v=5" defer></script>
 <script src="app.js?v=5" defer></script>
 <script src="extras.js?v=5" defer></script>
-<script src="web3.js?v=6" defer></script>
+<script src="web3.js?v=7" defer></script>
 <script src="nft.js?v=1" defer></script>
+<script src="wallets.js?v=1" defer></script>
 </body>
 </html>

@@ -36,42 +36,7 @@
     return next();
   }
 
-  /* ---------- wallet (connect on click only, view-only) ---------- */
-  var wBtn = $("w-connect"), wDisc = $("w-disc"), provider = null;
-  function getProvider() {
-    if (window.phantom && window.phantom.solana && window.phantom.solana.isPhantom) return window.phantom.solana;
-    if (window.solflare && window.solflare.isSolflare) return window.solflare;
-    if (window.solana && window.solana.connect) return window.solana;
-    return null;
-  }
-  function setWallet(addr, sol) {
-    $("w-state").textContent = addr ? "read-only · " + addr.slice(0, 4) + "…" + addr.slice(-4) : "read-only · not connected";
-    $("w-sol").textContent = sol == null ? "-.----" : sol.toFixed(4);
-    $("w-debt").textContent = sol == null ? "-----" : "-" + Math.max(0, Math.round((1 - Math.min(sol, 1)) * 10000));
-    wBtn.classList.toggle("hidden", !!addr); wDisc.classList.toggle("hidden", !addr);
-  }
-  function loadBalance(addr) {
-    $("w-sol").textContent = "8.8888"; $("w-sol").classList.add("loading");
-    return rpc("getBalance", [addr]).then(function (r) { $("w-sol").classList.remove("loading"); setWallet(addr, (r.value || 0) / 1e9); })
-      .catch(function () { $("w-sol").classList.remove("loading"); setWallet(addr, null); $("w-state").textContent = "connected · balance unavailable right now"; });
-  }
-  if (wBtn) wBtn.addEventListener("click", function () {
-    provider = getProvider();
-    if (!provider) {
-      $("w-state").innerHTML = 'No wallet found. Get <a href="https://phantom.app" target="_blank" rel="noopener">Phantom</a> or <a href="https://solflare.com" target="_blank" rel="noopener">Solflare</a>';
-      return;
-    }
-    wBtn.disabled = true;
-    provider.connect().then(function (res) {
-      var pk = (res && res.publicKey) || provider.publicKey; var addr = pk.toString();
-      var rc = $("rc-addr"); if (rc && !rc.value) rc.value = addr;
-      if (provider.on) { try { provider.on("disconnect", function () { setWallet(null, null); }); provider.on("accountChanged", function (p) { if (p) loadBalance(p.toString()); else setWallet(null, null); }); } catch (e) {} }
-      return loadBalance(addr);
-    }).catch(function () { $("w-state").textContent = "connection cancelled"; })
-      .then(function () { wBtn.disabled = false; });
-  });
-  if (wDisc) wDisc.addEventListener("click", function () { try { provider && provider.disconnect && provider.disconnect(); } catch (e) {} setWallet(null, null); });
-
+  /* wallet connect lives in wallets.js */
   /* ---------- trending feed ---------- */
   var feedEl = $("feed"), noteEl = $("feed-note"), updEl = $("feed-upd"), current = "trending";
   var NOTES = {
