@@ -2,70 +2,126 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>$AURAD | Aura Debt: a community meme coin on Solana</title>
 <meta name="description" content="$AURAD (Aura Debt) is a community meme coin on Solana for everyone who has ever lost aura points. Fair launch on Pump.fun, 30 Sept 2026, 13:00 UTC. No presale. High risk, no promises.">
 <meta property="og:title" content="$AURAD | Aura Debt">
-<meta property="og:description" content="A community meme coin on Solana. Fair launch 30 Sept 2026, 13:00 UTC on Pump.fun. No presale.">
+<meta property="og:description" content="Check your Aura Debt Score, confess your Ls, join the Debtors. Fair launch 30 Sept 2026, 13:00 UTC on Pump.fun. No presale.">
 <meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta name="theme-color" content="#000000">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text x='50' y='68' font-size='60' text-anchor='middle' fill='%2300ff88' font-family='Arial' font-weight='bold'>A</text></svg>">
+<meta property="og:url" content="https://dev1ishere55-sudo.github.io/aurad-website/">
+<meta property="og:image" content="https://dev1ishere55-sudo.github.io/aurad-website/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@auradebttm">
+<meta name="twitter:title" content="$AURAD | Aura Debt">
+<meta name="twitter:description" content="What's your Aura Debt Score? Fair launch 30 Sept, 13:00 UTC. No presale.">
+<meta name="twitter:image" content="https://dev1ishere55-sudo.github.io/aurad-website/og.jpg">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='black'/><text x='50' y='70' font-size='62' text-anchor='middle' fill='%2300ff88' font-family='Arial' font-weight='900'>A</text></svg>">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav class="nav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" id="nav">
   <a href="#top" class="brand">$AURAD</a>
-  <div class="nav-links">
-    <a href="#what">What</a>
+  <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
+  <div class="nav-links" id="nav-links">
+    <a href="#score">Score</a>
+    <a href="#wall">Confessions</a>
     <a href="#waitlist">Waitlist</a>
+    <a href="#memes">Memes</a>
     <a href="#launch">Launch</a>
     <a href="#roadmap">Roadmap</a>
-    <a href="#community">Community</a>
+    <a class="btn btn-sm" href="https://t.me/auradebtchatofficial" target="_blank" rel="noopener">Join Telegram</a>
   </div>
 </nav>
 
 <header id="top" class="hero">
-  <p class="tag">Community meme coin on Solana</p>
+  <div class="orb orb-g" aria-hidden="true"></div>
+  <div class="orb orb-r" aria-hidden="true"></div>
+  <p class="pill"><span class="dot"></span> Fair launch on Pump.fun · 30 Sept 2026 · 13:00 UTC</p>
   <h1 class="glow">AURA<span class="red">DEBT</span></h1>
   <p class="sub">For everyone who's ever fumbled so hard they lost aura points. Not at you. <strong>With you.</strong></p>
-  <div class="countdown" id="countdown" aria-live="polite">
+  <div class="countdown" id="countdown" aria-live="off">
     <div><span id="cd-d">--</span><small>days</small></div>
     <div><span id="cd-h">--</span><small>hours</small></div>
     <div><span id="cd-m">--</span><small>mins</small></div>
     <div><span id="cd-s">--</span><small>secs</small></div>
   </div>
-  <p class="launch-time">Fair launch on Pump.fun · 30 Sept 2026 · 13:00 UTC / 11 PM AEST</p>
+  <p class="launch-time" id="local-time">13:00 UTC</p>
   <div class="cta-row">
-    <a href="#waitlist" class="btn">Join the waitlist (free)</a>
-    <a href="#launch" class="btn ghost">How to verify at launch</a>
+    <a href="#score" class="btn btn-lg">Get your Aura Debt Score</a>
+    <a href="https://t.me/auradebtchatofficial" target="_blank" rel="noopener" class="btn ghost btn-lg">Join the Telegram</a>
   </div>
+  <p class="hero-stats"><span><strong id="hero-count">…</strong> on the waitlist</span><span><strong id="hero-conf">…</strong> confessions</span></p>
+  <a class="scroll-hint" href="#what" aria-label="Scroll down">↓</a>
 </header>
 
-<section id="what" class="section">
-  <h2>What is aura debt?</h2>
-  <p>You walk into a glass door. You wave back at someone who wasn't waving at you. You say "you too" when the waiter says "enjoy your meal." That's <span class="green">-1,000 aura</span>. Stack enough of those and you're in aura debt.</p>
-  <p>We all have it. $AURAD is a meme coin and a community built around laughing at our own Ls. No utility, no roadmap to the moon, no promises. Just memes and the people making them.</p>
+<div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker">
+  <span>-1,000 aura: waved back at nobody</span><span>-2,000 aura: left on read</span><span>-1,500 aura: tripped, pretended to jog</span><span>-3,000 aura: screenshot sent to the wrong chat</span><span>-800 aura: "you too" to happy birthday</span><span>-1,200 aura: pushed a PULL door</span>
+</div></div>
 
-  <div class="calc card">
-    <h3>Check your aura debt</h3>
-    <p class="muted">Just a joke calculator. Tick everything you've done this week.</p>
-    <form id="calc">
-      <label><input type="checkbox" value="500"> Waved back at someone who wasn't waving at me</label>
-      <label><input type="checkbox" value="1500"> Tripped in public and pretended to jog</label>
-      <label><input type="checkbox" value="800"> Said "you too" to "happy birthday"</label>
-      <label><input type="checkbox" value="2000"> Got left on read after a paragraph</label>
-      <label><input type="checkbox" value="1200"> Pushed a door that said PULL</label>
-      <label><input type="checkbox" value="3000"> Sent a screenshot to the person I was talking about</label>
-    </form>
-    <p class="calc-out">Your aura debt: <span id="calc-total" class="red">0</span></p>
-    <p id="calc-verdict" class="muted">Clean record. Suspicious.</p>
+<main id="main">
+<section id="what" class="section reveal">
+  <p class="eyebrow">The lore</p>
+  <h2>What is aura debt?</h2>
+  <p class="lead">You walk into a glass door. You wave back at someone who wasn't waving at you. You say "you too" when the waiter says "enjoy your meal." That's <span class="red">-1,000 aura</span>. Stack enough and you're in aura debt.</p>
+  <p>We all have it. $AURAD is a meme coin and a community built around laughing at our own Ls. No promises. Just memes and the people making them.</p>
+  <div class="feature-grid">
+    <a class="card feature" href="#score"><span class="ico">🧮</span><h3>Aura Debt Score</h3><p>Take the 30-second quiz and share your card.</p></a>
+    <a class="card feature" href="#wall"><span class="ico">🕯️</span><h3>Confession Wall</h3><p>Post your L anonymously and vote on the best.</p></a>
+    <a class="card feature" href="#memes"><span class="ico">🖼️</span><h3>Meme Generator</h3><p>Make AURAD memes in one tap.</p></a>
   </div>
 </section>
 
-<section id="waitlist" class="section">
+<section id="score" class="section reveal">
+  <p class="eyebrow">Quiz</p>
+  <h2>What's your Aura Debt Score?</h2>
+  <p class="muted">Six questions, answered honestly. It's a joke score, not financial anything.</p>
+  <div class="card quiz" id="quiz">
+    <div class="progress"><div class="bar" id="q-bar"></div></div>
+    <p class="q-step muted small" id="q-step">Question 1 of 6</p>
+    <h3 class="q-text" id="q-text">Loading…</h3>
+    <div class="q-opts" id="q-opts"></div>
+  </div>
+  <div class="card result hidden" id="q-result">
+    <canvas id="score-card" width="1200" height="630" aria-label="Your Aura Debt Score card"></canvas>
+    <div class="cta-row">
+      <a class="btn" id="share-x" target="_blank" rel="noopener">Share on X</a>
+      <button class="btn ghost" id="dl-card" type="button">Download card</button>
+      <button class="btn ghost" id="retake" type="button">Retake</button>
+    </div>
+    <p class="muted small center">Tip: download the card and attach it to your post for max aura.</p>
+  </div>
+</section>
+
+<section id="wall" class="section reveal">
+  <p class="eyebrow">Anonymous</p>
+  <h2>Confession Wall</h2>
+  <p class="muted">Confess your biggest aura loss. No names, no links, no wallet addresses. Upvote the ones that hurt.</p>
+  <form id="conf-form" class="card form conf-form" novalidate>
+    <label for="conf-body" class="sr">Your confession</label>
+    <textarea id="conf-body" name="body" maxlength="240" rows="3" placeholder="I once said 'love you' to my teacher…"></textarea>
+    <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="conf-row"><span class="muted small" id="conf-left">240</span><button class="btn" type="submit">Confess</button></div>
+    <p id="conf-msg" class="form-msg" role="status"></p>
+  </form>
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-sort="votes" role="tab" aria-selected="true">Top</button>
+    <button class="tab" data-sort="created_at" role="tab" aria-selected="false">New</button>
+  </div>
+  <div id="conf-list" class="conf-list" aria-live="polite"><p class="muted">Loading confessions…</p></div>
+</section>
+
+<section id="waitlist" class="section reveal">
+  <p class="eyebrow">Free</p>
   <h2>Join the waitlist</h2>
-  <p>Get the launch reminder and community links first. <strong>Free: no wallet, no payment, ever.</strong> We will never ask you to send crypto to join anything.</p>
+  <p>Get the launch reminder and community links first. <strong>Free: no wallet, no payment, ever.</strong></p>
+  <div class="card milestones">
+    <div class="ms-head"><span class="big green" id="wl-count">…</span><span class="muted">Debtors signed up</span></div>
+    <div class="progress lg"><div class="bar" id="ms-bar"></div></div>
+    <ul class="ms-list" id="ms-list"></ul>
+    <p class="muted small">Community unlocks. They're events and content, never money or token rewards.</p>
+  </div>
   <form id="waitlist-form" class="card form" novalidate>
     <label>Email
       <input type="email" name="email" placeholder="you@example.com" maxlength="254" autocomplete="email">
@@ -86,37 +142,59 @@
         <option value="other">Somewhere else</option>
       </select>
     </label>
-    <button type="submit" class="btn">Join free</button>
+    <button type="submit" class="btn btn-block">Join free</button>
     <p id="wl-msg" class="form-msg" role="status"></p>
     <p class="muted small">We only use this to send launch and community updates. Unsubscribe anytime.</p>
   </form>
 </section>
 
-<section id="launch" class="section">
-  <h2>How to get $AURAD at launch</h2>
-  <ol class="steps">
-    <li><strong>Get a Solana wallet</strong> such as Phantom or Solflare. Write your seed phrase down offline and never share it with anyone.</li>
-    <li><strong>Add a little SOL</strong> from an exchange you already trust. Only use money you can afford to lose completely.</li>
-    <li><strong>Wait for the official contract address.</strong> It is posted only at launch (30 Sept, 13:00 UTC) on our official X account <a href="https://x.com/auradebttm" target="_blank" rel="noopener">@auradebttm</a> and this website. Anything earlier is fake.</li>
-    <li><strong>Verify before you touch it</strong> (see below).</li>
-    <li><strong>Open the token on Pump.fun</strong> using the verified address, connect your wallet and swap.</li>
-  </ol>
+<section id="memes" class="section reveal">
+  <p class="eyebrow">Create</p>
+  <h2>Meme generator</h2>
+  <p class="muted">Pick a template, type your L, download, post. Tag @auradebttm.</p>
+  <div class="meme-wrap">
+    <canvas id="meme" width="1080" height="1080" aria-label="Meme preview"></canvas>
+    <div class="card form meme-ctrl">
+      <label>Template
+        <select id="meme-tpl">
+          <option value="0">Aura bankrupt</option>
+          <option value="1">-1000 aura</option>
+          <option value="2">In debt, still vibing</option>
+          <option value="3">Confession</option>
+        </select>
+      </label>
+      <label>Top text<input id="meme-top" maxlength="60" value="ME AFTER WAVING BACK"></label>
+      <label>Bottom text<input id="meme-bot" maxlength="60" value="AT SOMEONE BEHIND ME"></label>
+      <button class="btn btn-block" id="meme-dl" type="button">Download meme</button>
+    </div>
+  </div>
+</section>
 
-  <div class="card verify">
-    <h3>Verify the contract on Solscan</h3>
+<section id="launch" class="section reveal">
+  <p class="eyebrow">Stay safe</p>
+  <h2>How to get $AURAD at launch</h2>
+  <div class="steps-grid">
+    <div class="card step"><span class="num">1</span><h3>Get a Solana wallet</h3><p>Phantom or Solflare. Write your seed phrase down offline. Never share it.</p></div>
+    <div class="card step"><span class="num">2</span><h3>Wait for the official contract</h3><p>Posted only at launch (30 Sept, 13:00 UTC) on <a href="https://x.com/auradebttm" target="_blank" rel="noopener">@auradebttm</a> and this site. Anything earlier is fake.</p></div>
+    <div class="card step"><span class="num">3</span><h3>Verify it</h3><p>Check the address on Solscan and match it across both official sources.</p></div>
+    <div class="card step"><span class="num">4</span><h3>Open on Pump.fun</h3><p>Use the verified address only. Never click contract links in DMs.</p></div>
+  </div>
+
+  <details class="card verify">
+    <summary><h3>Verify the contract on Solscan</h3></summary>
     <ul>
-      <li>Paste the address into <a href="https://solscan.io" target="_blank" rel="noopener">solscan.io</a>. The token name should be <strong>Aura Debt</strong> and the symbol <strong>AURAD</strong>.</li>
-      <li>Check that it matches the address on <em>both</em> @auradebttm on X and this site, character by character.</li>
+      <li>Paste the address into <a href="https://solscan.io" target="_blank" rel="noopener">solscan.io</a>. The name should be <strong>Aura Debt</strong> and the symbol <strong>AURAD</strong>.</li>
+      <li>Check it matches the address on <em>both</em> @auradebttm and this site, character by character.</li>
       <li>Check the creation time lines up with launch, not days earlier.</li>
       <li>Look at the holder list. Be careful if a few wallets hold most of the supply.</li>
       <li>Copycat tokens with the same name will appear. The address is the only thing that counts.</li>
     </ul>
-  </div>
+  </details>
 
-  <div class="card center" id="prelaunch">
+  <div class="card center cta-card" id="prelaunch">
     <h3>Want the prelaunch details first?</h3>
     <p>Launch info, contract drop time, memes and community events are shared in our official channels first. Join the Debtors before 30 Sept.</p>
-    <p>
+    <p class="cta-row">
       <a class="btn" href="https://t.me/auradebtchatofficial" target="_blank" rel="noopener">Join the Telegram</a>
       <a class="btn ghost" href="https://x.com/auradebttm" target="_blank" rel="noopener">Follow @auradebttm</a>
     </p>
@@ -125,7 +203,8 @@
   </div>
 </section>
 
-<section id="tokenomics" class="section">
+<section id="tokenomics" class="section reveal">
+  <p class="eyebrow">Transparency</p>
   <h2>Tokenomics</h2>
   <div class="card center">
     <p class="big green">Announced at launch</p>
@@ -133,31 +212,36 @@
   </div>
 </section>
 
-<section id="roadmap" class="section">
+<section id="roadmap" class="section reveal">
+  <p class="eyebrow">Plan</p>
   <h2>Roadmap</h2>
-  <div class="timeline">
-    <div class="card"><span class="phase green">Now</span><h3>Pre-launch</h3><p>New website, waitlist, X account, meme drops, whitepaper published on GitHub.</p></div>
-    <div class="card"><span class="phase">Next</span><h3>Community</h3><p>Discord and Telegram open, with meme contests, creator channels and moderation.</p></div>
-    <div class="card"><span class="phase">30 Sept</span><h3>Fair launch</h3><p>Launch on Pump.fun. The contract is posted only through official channels, and any team holdings are disclosed.</p></div>
-    <div class="card"><span class="phase">After</span><h3>Keep building</h3><p>Community events, meme archive, open dev updates. No promises about price, ever.</p></div>
-  </div>
+  <ol class="road">
+    <li class="done"><span class="phase">Done</span><h3>Pre-launch</h3><p>Website, waitlist, X and Telegram live, score quiz, confession wall, meme generator.</p></li>
+    <li class="now"><span class="phase">Now</span><h3>Community</h3><p>Daily confessions, weekly meme contests, Discord opening soon.</p></li>
+    <li><span class="phase">30 Sept · 13:00 UTC</span><h3>Fair launch</h3><p>Launch on Pump.fun. Contract posted only through official channels. Team holdings disclosed.</p></li>
+    <li><span class="phase">After</span><h3>Keep building</h3><p>Community events, meme archive, open dev updates. No promises about price, ever.</p></li>
+  </ol>
 </section>
 
-<section id="community" class="section">
+<section id="community" class="section reveal">
+  <p class="eyebrow">Official links</p>
   <h2>Community</h2>
   <div class="links">
-    <a class="card link" id="x-link" href="https://x.com/auradebttm" target="_blank" rel="noopener"><span class="green">X</span> @auradebttm · official updates</a>
-    <div class="card link soon"><span>Discord</span> Coming soon</div>
+    <a class="card link" href="https://x.com/auradebttm" target="_blank" rel="noopener"><span class="green">X</span> @auradebttm · official updates</a>
     <a class="card link" href="https://t.me/auradebtchatofficial" target="_blank" rel="noopener"><span class="green">Telegram</span> Community chat</a>
+    <div class="card link soon"><span>Discord</span> Coming soon</div>
     <a class="card link" href="https://github.com/dev1ishere55-sudo/aurad-website" target="_blank" rel="noopener"><span class="green">GitHub</span> Build in public</a>
   </div>
 </section>
+</main>
 
 <footer class="footer">
   <h3 class="red">Risk disclaimer</h3>
   <p>$AURAD is a meme coin with no intrinsic value, no utility and no expectation of financial return. It is not an investment, and nothing on this site is financial advice. Meme coins are extremely volatile and you can lose everything you put in. Only spend what you can afford to lose. Do your own research and follow the laws where you live. The team may hold tokens and will disclose this at launch.</p>
   <p class="muted small">© 2026 $AURAD community. Built in public.</p>
 </footer>
+
+<a class="float-cta" href="https://t.me/auradebtchatofficial" target="_blank" rel="noopener">Join the Debtors →</a>
 
 <script src="config.js"></script>
 <script src="app.js"></script>
