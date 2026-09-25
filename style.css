@@ -423,3 +423,9 @@ body.chaos .card{animation:wobble 2s infinite ease-in-out}
 .unit{font:400 15px/1 var(--disp);font-style:normal;color:var(--m);margin:0 2px}
 .f-num.up .unit{color:var(--acid)}.f-num.down .unit{color:#ff3b3b}
 .f-num b:empty{display:none}
+.f-num{white-space:nowrap;min-width:0;overflow:hidden}
+@media (max-width:560px){
+  .feed-row{grid-template-columns:30px repeat(3,minmax(0,1fr));grid-template-areas:"r n n n" ". p c v";row-gap:8px}
+  .feed-row .f-num:nth-of-type(3){grid-area:p}.feed-row .f-num:nth-of-type(4){grid-area:c}.feed-row .f-num:nth-of-type(5){grid-area:v}
+  .f-num b{font-size:12px}.unit{font-size:12px;margin:0 1px}
+}
