@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/dseg@0.46.0/fonts/DSEG7-Classic/DSEG7Classic-Bold.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -43,6 +43,8 @@
     <a href="#memes">Memes</a>
     <a href="#launch">Launch</a>
     <a href="#reclaim">Reclaim SOL</a>
+    <a href="#nfts">NFTs</a>
+    <a href="#get-trending">Get trending</a>
     <button class="snd" id="snd" type="button" aria-pressed="false" aria-label="Sound effects">Sound: off</button>
     <a class="btn btn-sm" href="https://t.me/auradebtchatofficial" target="_blank" rel="noopener">Join Telegram</a>
   </div>
@@ -295,6 +297,46 @@
   </div>
 </section>
 
+<section id="nfts" class="section reveal">
+  <p class="eyebrow">For the NFT freaks</p>
+  <h2>NFT vault</h2>
+  <p class="lead">Look up any wallet's NFTs. It's view-only: no signing, no approvals, no minting.</p>
+  <div class="card reclaim">
+    <label for="nft-addr">Wallet address (Base 0x… or Solana)</label>
+    <div class="rc-row"><input id="nft-addr" placeholder="Paste an address" maxlength="44" autocomplete="off" spellcheck="false"><button class="btn" id="nft-go" type="button">Look up</button></div>
+    <div id="nft-out" aria-live="polite"></div>
+  </div>
+  <div class="nft-extra">
+    <div class="card"><h3>Trending collections</h3><p class="small">Live floors and volume on the big marketplaces. Not endorsements.</p>
+      <p class="row"><a class="btn btn-sm" href="https://magiceden.io/collections/solana" target="_blank" rel="noopener nofollow">Solana · Magic Eden</a> <a class="btn btn-sm ghost" href="https://www.tensor.trade/trade" target="_blank" rel="noopener nofollow">Tensor</a> <a class="btn btn-sm ghost" href="https://opensea.io/stats/rankings?chain=base" target="_blank" rel="noopener nofollow">Base · OpenSea</a></p></div>
+    <div class="card lp-empty"><span class="lp-status">Coming soon</span><h3>Aura Debt Receipts</h3><p class="small">Collectible receipts of your worst Ls. Not live and not for sale yet. Any mint link you see before we announce it on @auradebttm is a scam.</p></div>
+    <div class="card"><h3>NFT safety</h3><ul class="small"><li>Never sign "Set Approval For All" on a site you don't trust.</li><li>Free NFTs that show up in your wallet are usually bait. Don't click them.</li><li>We will never ask for your seed phrase.</li></ul></div>
+  </div>
+</section>
+
+<section id="get-trending" class="section reveal">
+  <p class="eyebrow">For devs</p>
+  <h2>Get trending (legit)</h2>
+  <p class="lead">Real ways to get noticed. No fake volume: DexScreener and CoinGecko flag wash trading and bury those tokens.</p>
+  <div class="gt-grid">
+    <div class="card"><h3>Pre-launch checklist</h3><ul class="gt-list">
+      <li><input type="checkbox" id="g1"><label for="g1">Logo, name, ticker and description final</label></li>
+      <li><input type="checkbox" id="g2"><label for="g2">Website, X and Telegram live and linked</label></li>
+      <li><input type="checkbox" id="g3"><label for="g3">Token details set, and mint and freeze powers given up</label></li>
+      <li><input type="checkbox" id="g4"><label for="g4">Liquidity locked or burned, with proof link</label></li>
+      <li><input type="checkbox" id="g5"><label for="g5">Team wallets and holdings disclosed</label></li>
+      <li><input type="checkbox" id="g6"><label for="g6">Official contract posted in one place only</label></li></ul></div>
+    <div class="card"><h3>DexScreener</h3><ul class="small">
+      <li><b>Enhanced Token Info:</b> paid, official logo, socials and description on your token page.</li>
+      <li><b>Boosts:</b> paid ads that last 12–24h. They're shown publicly and don't guarantee trending.</li></ul>
+      <p><a class="btn btn-sm" href="https://marketplace.dexscreener.com/product/token-info" target="_blank" rel="noopener">Open DexScreener marketplace</a></p></div>
+    <div class="card"><h3>CoinGecko / CoinMarketCap</h3><ul class="small">
+      <li>Trading on an exchange they track, with real volume</li><li>Working website and active socials</li><li>Contract on a block explorer, and supply info you can check</li><li>Apply through their official forms only. Listing "agents" in DMs are scams.</li></ul>
+      <p class="row"><a class="btn btn-sm ghost" href="https://www.coingecko.com/request-form" target="_blank" rel="noopener">CoinGecko form</a> <a class="btn btn-sm ghost" href="https://support.coinmarketcap.com/hc/en-us/articles/360043659351" target="_blank" rel="noopener">CMC guide</a></p></div>
+    <div class="card"><h3>Real hype</h3><ul class="small"><li>X Spaces before launch</li><li>Quests and meme battles (no purchase needed)</li><li>Telegram raids that post real content, not bots</li></ul></div>
+  </div>
+</section>
+
 <section id="tokenomics" class="section reveal">
   <p class="eyebrow">Transparency</p>
   <h2>Tokenomics</h2>
@@ -351,5 +393,6 @@
 <script src="app.js?v=5" defer></script>
 <script src="extras.js?v=5" defer></script>
 <script src="web3.js?v=6" defer></script>
+<script src="nft.js?v=1" defer></script>
 </body>
 </html>

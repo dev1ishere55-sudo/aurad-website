@@ -429,3 +429,18 @@ body.chaos .card{animation:wobble 2s infinite ease-in-out}
   .feed-row .f-num:nth-of-type(3){grid-area:p}.feed-row .f-num:nth-of-type(4){grid-area:c}.feed-row .f-num:nth-of-type(5){grid-area:v}
   .f-num b{font-size:12px}.unit{font-size:12px;margin:0 1px}
 }
+
+/* v6: NFTs + get trending */
+.nft-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+.nft{background:#111;border:2px solid #2a2a2a;margin:0;overflow:hidden}
+.nft img,.nft-ph{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:#050505}
+.nft-ph{display:flex;align-items:center;justify-content:center;color:#444;font:400 40px var(--disp)}
+.nft figcaption{padding:6px 8px;color:var(--paper);font-size:.72rem;display:flex;justify-content:space-between;gap:6px}
+.nft figcaption b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nft figcaption .seg{font-size:11px}
+.nft-extra,.gt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:22px}
+.nft-extra h3,.gt-grid h3{font:400 24px/1.1 var(--disp);text-transform:uppercase;margin-bottom:8px}
+.nft-extra ul,.gt-grid ul{margin-left:18px;display:grid;gap:6px}
+.gt-list{list-style:none;margin-left:0!important}.gt-list li{display:flex;gap:8px;align-items:flex-start}
+.gt-list input{width:20px;height:20px;accent-color:var(--pink);flex:none;margin-top:2px}
+.gt-list input:checked+label{text-decoration:line-through;opacity:.6}
