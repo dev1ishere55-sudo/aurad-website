@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>$AURAD · Moderation</title>
+<title>$AURAD · Admin</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap">
 <link rel="stylesheet" href="style.css?v=4">
 <style>
@@ -21,7 +21,7 @@
 <body>
 <main class="wrap">
   <a class="brand" href="./">$AURAD</a>
-  <h1 style="margin:14px 0 6px">Confession moderation</h1>
+  <h1 style="margin:14px 0 6px">Admin: confessions &amp; call-outs</h1>
   <p class="muted">Private page. The password is checked by the database on every action and is kept only in this browser tab.</p>
   <form id="login" class="card form row" autocomplete="off">
     <label for="pw" class="sr">Moderator password</label>
@@ -39,6 +39,17 @@
     </div>
     <p class="muted small" id="summary"></p>
     <div id="list"></div>
+    <h2 style="margin:40px 0 8px;font:400 40px/1 var(--disp)">Early call-outs</h2>
+    <p class="muted small">Shown in the "On our radar" tab. Opinion only, never advice. Tick "team holds" whenever anyone on the team holds it: the site will show a disclosure. Hype words (100x, moon, guaranteed, risk-free) are rejected by the database.</p>
+    <form id="co-form" class="card form" autocomplete="off">
+      <div class="row"><input id="co-sym" placeholder="Symbol e.g. BONK" maxlength="16" required><input id="co-name" placeholder="Name" maxlength="60" required></div>
+      <input id="co-addr" placeholder="Solana mint address (optional)" maxlength="44" pattern="[1-9A-HJ-NP-Za-km-z]{32,44}">
+      <textarea id="co-note" placeholder="Why it's on the radar: factual, 280 chars max" maxlength="280" rows="3"></textarea>
+      <label style="flex-direction:row;align-items:center;gap:8px"><input id="co-hold" type="checkbox" style="width:auto;min-height:0"> Team holds this (disclose)</label>
+      <button class="btn" type="submit">Add call-out</button>
+      <p id="co-msg" class="form-msg" role="status"></p>
+    </form>
+    <div id="co-list" style="margin-top:20px"></div>
   </section>
 </main>
 <script src="config.js?v=4"></script>
@@ -52,7 +63,7 @@
   function load(){
     return rpc("admin_list_confessions",{secret:pw}).then(function(j){
       if(!j.ok){sessionStorage.removeItem("aurad_mod");$("panel").hidden=true;$("login").hidden=false;say(j.error==="unauthorized"?"Wrong password, or too many attempts. Wait 15 minutes if you've tried several times.":"Couldn't load.");return}
-      sessionStorage.setItem("aurad_mod",pw);$("login").hidden=true;$("panel").hidden=false;rows=j.rows;render();
+      sessionStorage.setItem("aurad_mod",pw);$("login").hidden=true;$("panel").hidden=false;rows=j.rows;render();loadCo();
     }).catch(function(){say("Network error.")});
   }
   function render(){
@@ -69,7 +80,14 @@
     if(b.dataset.a==="delete"&&!confirm("Delete this confession permanently?"))return;
     b.disabled=true;rpc("admin_moderate",{secret:pw,cid:Number(b.dataset.id),action:b.dataset.a}).then(function(j){if(!j.ok)alert("Failed: "+j.error);return load()})});
   document.querySelectorAll(".tab").forEach(function(t){t.addEventListener("click",function(){document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");x.setAttribute("aria-pressed","false")});t.classList.add("active");t.setAttribute("aria-pressed","true");f=t.dataset.f;render()})});
-  $("refresh").addEventListener("click",load);
+  $("refresh").addEventListener("click",function(){load();loadCo()});
+  function loadCo(){return rpc("admin_list_callouts",{secret:pw}).then(function(j){if(!j.ok)return;
+    $("co-list").innerHTML=j.rows.length?j.rows.map(function(r){return '<article class="card item'+(r.hidden?' hid':'')+'"><p><b>$'+esc(r.symbol)+'</b> · '+esc(r.name)+(r.team_holds?' <span class="flag">TEAM HOLDS</span>':'')+(r.hidden?' <span class="flag">HIDDEN</span>':'')+'</p><p class="small">'+esc(r.note||"")+'</p><p class="small muted">'+esc(r.address||"no address")+'</p><div class="row">'+(r.hidden?'<button class="btn btn-sm" data-c="show" data-id="'+r.id+'" type="button">Show</button>':'<button class="btn btn-sm" data-c="hide" data-id="'+r.id+'" type="button">Hide</button>')+'<button class="btn ghost btn-sm" data-c="delete" data-id="'+r.id+'" type="button">Delete</button></div></article>'}).join(""):'<p class="muted">No call-outs yet. The public tab shows an empty state.</p>'})}
+  $("co-form").addEventListener("submit",function(e){e.preventDefault();var m=$("co-msg");
+    rpc("admin_add_callout",{secret:pw,p_symbol:$("co-sym").value,p_name:$("co-name").value,p_address:$("co-addr").value,p_note:$("co-note").value,p_team_holds:$("co-hold").checked}).then(function(j){
+      m.textContent=j.ok?"Added.":"Failed: "+j.error;m.className="form-msg "+(j.ok?"ok":"err");if(j.ok){$("co-form").reset();loadCo()}})});
+  $("co-list").addEventListener("click",function(e){var b=e.target.closest("button[data-c]");if(!b)return;if(b.dataset.c==="delete"&&!confirm("Delete this call-out?"))return;
+    b.disabled=true;rpc("admin_callout_action",{secret:pw,cid:Number(b.dataset.id),action:b.dataset.c}).then(loadCo)});
   $("logout").addEventListener("click",function(){sessionStorage.removeItem("aurad_mod");pw="";location.reload()});
   if(pw)load();
 })();
