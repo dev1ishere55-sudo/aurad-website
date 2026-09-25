@@ -83,7 +83,8 @@
   function cacheSet(k, d) { try { sessionStorage.setItem(k, JSON.stringify({ t: Date.now(), d: d })); } catch (e) {} }
   function fmtUsd(n) {
     n = Number(n); if (!isFinite(n)) return "-";
-    if (n >= 1e9) return (n / 1e9).toFixed(2) + "B"; if (n >= 1e6) return (n / 1e6).toFixed(2) + "M"; if (n >= 1e3) return (n / 1e3).toFixed(1) + "K";
+    var u = function (v, x) { return v + '</b><i class="unit">' + x + '</i><b class="seg">'; };
+    if (n >= 1e9) return u((n / 1e9).toFixed(2), "B"); if (n >= 1e6) return u((n / 1e6).toFixed(2), "M"); if (n >= 1e3) return u((n / 1e3).toFixed(1), "K");
     if (n >= 1) return n.toFixed(2); if (n === 0) return "0";
     return n.toPrecision(3);
   }
@@ -92,8 +93,8 @@
     return '<a class="feed-row" href="' + esc(url) + '" target="_blank" rel="noopener nofollow">' +
       '<span class="f-rank seg">' + pad(i + 1) + '</span>' +
       '<span class="f-name"><b>' + esc(sym) + '</b><small>' + esc(name) + '</small></span>' +
-      '<span class="f-num"><small>Price</small><b class="seg">' + fmtUsd(price) + '</b></span>' +
-      '<span class="f-num ' + cls + '"><small>24h</small><b class="seg">' + (isFinite(c) ? (c >= 0 ? "+" : "") + c.toFixed(1) : "-") + '%</b></span>' +
+      '<span class="f-num"><small>Price</small><i class="unit">$</i><b class="seg">' + fmtUsd(price) + '</b></span>' +
+      '<span class="f-num ' + cls + '"><small>24h</small><i class="unit">' + (isFinite(c) ? (c >= 0 ? "+" : "\u2212") : "") + '</i><b class="seg">' + (isFinite(c) ? Math.abs(c).toFixed(1) : "-") + '</b><i class="unit">%</i></span>' +
       '<span class="f-num"><small>Vol 24h</small><b class="seg">' + fmtUsd(vol) + '</b></span></a>';
   }
   function fetchTrending() {

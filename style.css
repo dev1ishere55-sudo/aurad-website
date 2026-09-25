@@ -419,3 +419,7 @@ body.chaos .card{animation:wobble 2s infinite ease-in-out}
   .rc-row{flex-direction:column}.rc-result .seg{font-size:17px}
 }
 @media (prefers-reduced-motion:reduce){.seg,.lp-status{animation:none!important}}
+
+.unit{font:400 15px/1 var(--disp);font-style:normal;color:var(--m);margin:0 2px}
+.f-num.up .unit{color:var(--acid)}.f-num.down .unit{color:#ff3b3b}
+.f-num b:empty{display:none}
