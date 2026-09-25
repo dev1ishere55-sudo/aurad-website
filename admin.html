@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>$AURAD · Moderation</title>
+<link rel="stylesheet" href="style.css?v=3">
+<style>
+.wrap{max-width:860px;margin:0 auto;padding:40px 18px 80px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row input{flex:1;min-width:200px}
+.item{display:flex;flex-direction:column;gap:10px}
+.item.hid{opacity:.6;border-style:dashed}
+.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:.85rem;color:var(--m)}
+.flag{color:var(--r);font-weight:700}
+.filters{display:flex;gap:8px;margin:18px 0 6px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <a class="brand" href="./">$AURAD</a>
+  <h1 style="margin:14px 0 6px">Confession moderation</h1>
+  <p class="muted">Private page. The password is checked by the database on every action and is kept only in this browser tab.</p>
+  <form id="login" class="card form row" autocomplete="off">
+    <label for="pw" class="sr">Moderator password</label>
+    <input id="pw" type="password" placeholder="Moderator password" required>
+    <button class="btn" type="submit">Unlock</button>
+    <p id="msg" class="form-msg" role="status" style="width:100%"></p>
+  </form>
+  <section id="panel" hidden>
+    <div class="filters" role="group" aria-label="Filter">
+      <button class="tab active" data-f="all" type="button" aria-pressed="true">All</button>
+      <button class="tab" data-f="reported" type="button" aria-pressed="false">Reported</button>
+      <button class="tab" data-f="hidden" type="button" aria-pressed="false">Hidden</button>
+      <button class="btn ghost btn-sm" id="refresh" type="button">Refresh</button>
+      <button class="btn ghost btn-sm" id="logout" type="button">Lock</button>
+    </div>
+    <p class="muted small" id="summary"></p>
+    <div id="list"></div>
+  </section>
+</main>
+<script src="config.js?v=3"></script>
+<script>
+(function(){
+  var C=window.AURAD_CONFIG, H={"apikey":C.SUPABASE_PUBLISHABLE_KEY,"Content-Type":"application/json"};
+  var $=function(id){return document.getElementById(id)}, pw=sessionStorage.getItem("aurad_mod")||"", rows=[], f="all";
+  function rpc(n,b){return fetch(C.SUPABASE_URL+"/rest/v1/rpc/"+n,{method:"POST",headers:H,body:JSON.stringify(b)}).then(function(r){return r.json()})}
+  function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+  function say(t){$("msg").textContent=t;$("msg").className="form-msg err"}
+  function load(){
+    return rpc("admin_list_confessions",{secret:pw}).then(function(j){
+      if(!j.ok){sessionStorage.removeItem("aurad_mod");$("panel").hidden=true;$("login").hidden=false;say(j.error==="unauthorized"?"Wrong password, or too many attempts. Wait 15 minutes if you've tried several times.":"Couldn't load.");return}
+      sessionStorage.setItem("aurad_mod",pw);$("login").hidden=true;$("panel").hidden=false;rows=j.rows;render();
+    }).catch(function(){say("Network error.")});
+  }
+  function render(){
+    var v=rows.filter(function(r){return f==="all"||(f==="reported"?r.reports>0&&!r.hidden:r.hidden)});
+    var rep=rows.filter(function(r){return r.reports>0&&!r.hidden}).length, hid=rows.filter(function(r){return r.hidden}).length;
+    $("summary").textContent=rows.length+" total · "+rep+" reported and still visible · "+hid+" hidden";
+    $("list").innerHTML=v.length?v.map(function(r){
+      return '<article class="card item'+(r.hidden?' hid':'')+'"><p>'+esc(r.body)+'</p><div class="meta"><span>#'+r.id+'</span><span>'+new Date(r.created_at).toLocaleString()+'</span><span>💀 '+r.votes+'</span>'+(r.reports?'<span class="flag">'+r.reports+' report'+(r.reports>1?'s':'')+'</span>':'')+(r.hidden?'<span class="flag">HIDDEN</span>':'')+'</div><div class="row">'+
+      (r.hidden?'<button class="btn btn-sm" data-a="unhide" data-id="'+r.id+'" type="button">Restore</button>':'<button class="btn btn-sm" data-a="hide" data-id="'+r.id+'" type="button">Hide</button>')+
+      '<button class="btn ghost btn-sm" data-a="delete" data-id="'+r.id+'" type="button">Delete forever</button></div></article>'}).join(""):'<p class="muted">Nothing here.</p>';
+  }
+  $("login").addEventListener("submit",function(e){e.preventDefault();pw=$("pw").value;load()});
+  $("list").addEventListener("click",function(e){var b=e.target.closest("button[data-a]");if(!b)return;
+    if(b.dataset.a==="delete"&&!confirm("Delete this confession permanently?"))return;
+    b.disabled=true;rpc("admin_moderate",{secret:pw,cid:Number(b.dataset.id),action:b.dataset.a}).then(function(j){if(!j.ok)alert("Failed: "+j.error);return load()})});
+  document.querySelectorAll(".tab").forEach(function(t){t.addEventListener("click",function(){document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");x.setAttribute("aria-pressed","false")});t.classList.add("active");t.setAttribute("aria-pressed","true");f=t.dataset.f;render()})});
+  $("refresh").addEventListener("click",load);
+  $("logout").addEventListener("click",function(){sessionStorage.removeItem("aurad_mod");pw="";location.reload()});
+  if(pw)load();
+})();
+</script>
+</body>
+</html>
