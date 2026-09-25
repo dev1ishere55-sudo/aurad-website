@@ -26,7 +26,7 @@
   function setAway() { floatCta.classList.toggle("away", typing || awayCount > 0); }
   if ("IntersectionObserver" in window) {
     var aio = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting !== !!e.target._in) { e.target._in = e.isIntersecting; awayCount += e.isIntersecting ? 1 : -1; } }); setAway(); });
-    document.querySelectorAll("form, .footer, #prelaunch, #q-result, #conf-list, #memes .meme-wrap").forEach(function (el) { aio.observe(el); });
+    document.querySelectorAll("form, .footer, #prelaunch, #q-result, #conf-list, #wall, #memes .meme-wrap").forEach(function (el) { aio.observe(el); });
   }
   document.addEventListener("focusin", function (e) { if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) { typing = true; setAway(); } });
   document.addEventListener("focusout", function () { typing = false; setAway(); });
@@ -111,22 +111,31 @@
   $("q-back").addEventListener("click", function () { if (!qi) return; qi--; score -= hist.pop() || 0; renderQ(); $("q-text").focus({ preventScroll: true }); });
   function drawCard(s) {
     var cv = $("score-card"), ctx = cv.getContext("2d"), W = cv.width, Hh = cv.height, t = tierFor(s);
-    ctx.fillStyle = "#050505"; ctx.fillRect(0, 0, W, Hh);
-    var g = ctx.createRadialGradient(220, 120, 0, 220, 120, 620); g.addColorStop(0, "rgba(0,255,136,.28)"); g.addColorStop(1, "rgba(0,255,136,0)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, Hh);
-    var r = ctx.createRadialGradient(1050, 560, 0, 1050, 560, 520); r.addColorStop(0, "rgba(255,45,85,.25)"); r.addColorStop(1, "rgba(255,45,85,0)"); ctx.fillStyle = r; ctx.fillRect(0, 0, W, Hh);
-    ctx.strokeStyle = "rgba(0,255,136,.5)"; ctx.lineWidth = 4; ctx.strokeRect(24, 24, W - 48, Hh - 48);
-    ctx.textAlign = "left"; ctx.font = "800 34px " + FONT; ctx.fillStyle = "#9a9a9a"; ctx.fillText("MY AURA DEBT SCORE", 70, 110);
-    ctx.font = "900 170px " + FONT; glowText(ctx, s ? "-" + fmt(s) : "0", 64, 290, s ? "#ff2d55" : "#00ff88", 30);
-    ctx.font = "900 64px " + FONT; glowText(ctx, t[1], 70, 390, "#00ff88", 20);
-    ctx.font = "500 36px " + FONT; ctx.fillStyle = "#e0e0e0"; ctx.fillText(t[2], 70, 450);
-    ctx.font = "900 48px " + FONT; glowText(ctx, "$AURAD", 70, 530, "#00ff88", 16);
-    ctx.font = "600 26px " + FONT; ctx.fillStyle = "#9a9a9a"; ctx.fillText("Get yours: " + SITE, 70, 575);
+    var D = '"Anton",Impact,"Arial Black",sans-serif', M = '"Space Mono",ui-monospace,Menlo,monospace', HD = '"Permanent Marker","Comic Sans MS",cursive';
+    ctx.fillStyle = "#0a0a0a"; ctx.fillRect(0, 0, W, Hh);
+    ctx.fillStyle = "#c6ff00"; ctx.save(); ctx.translate(0, 40); ctx.rotate(-0.03); ctx.fillRect(-20, 0, W + 40, 52); ctx.fillStyle = "#0a0a0a"; ctx.font = "30px " + D; ctx.textAlign = "left";
+    ctx.fillText("AURA DEBT COLLECTION AGENCY  ✶  OFFICIAL NOTICE  ✶  AURA DEBT COLLECTION AGENCY", 20, 38); ctx.restore();
+    ctx.save(); ctx.translate(70, 130); ctx.rotate(-0.015); ctx.fillStyle = "#f3ecdc"; ctx.fillRect(0, 0, 690, 440);
+    ctx.fillStyle = "#0a0a0a"; ctx.font = "700 24px " + M; ctx.fillText("STATEMENT OF AURA DEBT", 30, 50);
+    ctx.fillRect(30, 64, 630, 3);
+    ctx.font = "150px " + D; ctx.fillStyle = s ? "#ff2e88" : "#2c6a00"; ctx.fillText(s ? "-" + fmt(s) : "0", 26, 220);
+    ctx.fillStyle = "#0a0a0a"; ctx.font = "58px " + D; ctx.fillText(t[1].toUpperCase(), 30, 300);
+    ctx.font = "700 24px " + M; wrap(ctx, t[2], 620).slice(0, 2).forEach(function (l, i) { ctx.fillText(l, 30, 344 + i * 32); });
+    ctx.setLineDash([10, 8]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(30, 400); ctx.lineTo(660, 400); ctx.stroke(); ctx.setLineDash([]);
+    ctx.font = "700 20px " + M; ctx.fillText("PAYABLE IN MEMES ONLY", 30, 428); ctx.restore();
+    ctx.save(); ctx.translate(850, 480); ctx.rotate(-0.12); ctx.strokeStyle = "#ff2e88"; ctx.lineWidth = 8; ctx.strokeRect(0, 0, 250, 86); ctx.fillStyle = "#ff2e88"; ctx.font = "52px " + D; ctx.textAlign = "center"; ctx.fillText("PAST DUE", 125, 64); ctx.restore();
+    ctx.textAlign = "center"; ctx.fillStyle = "#ff2e88"; ctx.fillRect(820, 130, 320, 170);
+    ctx.fillStyle = "#0a0a0a"; ctx.font = "96px " + D; ctx.fillText("$AURAD", 980, 250);
+    ctx.fillStyle = "#c6ff00"; ctx.font = "44px " + HD; ctx.save(); ctx.translate(980, 380); ctx.rotate(0.06); ctx.fillText("what's yours?", 0, 0); ctx.restore();
+    ctx.fillStyle = "#f3ecdc"; ctx.font = "700 22px " + M; ctx.fillText("@auradebttm", 980, 450);
+    ctx.fillStyle = "#b3ab9a"; ctx.font = "700 18px " + M; ctx.textAlign = "left"; ctx.fillText("Get yours: " + SITE, 70, 610);
     return t;
   }
   function finish() {
     $("q-bar").style.width = "100%";
     $("quiz").classList.add("hidden"); $("q-result").classList.remove("hidden");
     var t = drawCard(score);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { drawCard(score); });
     store("aurad_score", score);
     $("result-line").textContent = "You scored " + (score ? "-" + fmt(score) : "0") + " aura: " + t[1] + ". " + t[2];
     var txt = "My Aura Debt Score: " + (score ? "-" + fmt(score) : "0") + " aura (" + t[1] + ") 💀\n\nWhat's yours? Take the quiz 👇\n@auradebttm $AURAD";
